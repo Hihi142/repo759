@@ -1,0 +1,152 @@
+\documentclass[11pt,letterpaper]{article}
+
+% No additional packages are required.
+% Compile with: pdflatex assignment1.tex (run twice for the references).
+\pdfpagewidth=\paperwidth
+\pdfpageheight=\paperheight
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\textheight}{9in}
+\setlength{\footskip}{0.4in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\newcommand{\question}[1]{%
+  \par\medskip\noindent{\large\bfseries Question #1}\par\nobreak\smallskip}
+\frenchspacing
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries ECE 759: Assignment 1}\\[4pt]
+  Xusheng Zhi (\texttt{xzhi8})
+\end{center}
+
+\textbf{GitHub (HW01):}
+{\small\texttt{https://github.com/Hihi142/repo759/tree/main/HW01}}\\
+\textbf{SSH:} \texttt{git@github.com:Hihi142/repo759.git}
+
+\question{1}
+I went through a) through c) and understand how to time code, how to submit
+my assignments with git, and what the recommended workflow is when it comes
+to working on my assignment.
+
+\question{2}
+\begin{tabular}{@{}ll@{}}
+(a) & \verb|cd somedir|\\[3pt]
+(b) & \verb|cat sometext.txt|\\[3pt]
+(c) & \verb|tail -n 5 sometext.txt|\\[3pt]
+(d) & \verb|tail -n 5 ./*.txt|\\[3pt]
+(e) & \verb|for i in {0..6}; do echo "$i"; done|
+\end{tabular}
+
+\question{3}
+\begin{enumerate}
+\setlength{\itemsep}{3pt}
+\setlength{\parsep}{0pt}
+\item No modules are loaded at login; \texttt{module list} reports
+\texttt{No modules loaded}.
+
+\item The default GCC version is \texttt{14.3.1}
+(\texttt{Red Hat 14.3.1-4}).
+
+\item The available CUDA modules are:
+\begin{center}
+\small
+\begin{tabular}{@{}ll@{}}
+\texttt{nvidia/cuda/10.2.2} & \texttt{nvidia/cuda/11.0.3}\\
+\texttt{nvidia/cuda/11.3.1} & \texttt{nvidia/cuda/11.6.0}\\
+\texttt{nvidia/cuda/11.8.0} & \texttt{nvidia/cuda/12.0.0}\\
+\texttt{nvidia/cuda/12.1.0} & \texttt{nvidia/cuda/12.2.0}\\
+\texttt{nvidia/cuda/12.5.0} & \texttt{nvidia/cuda/12.9.1}\\
+\texttt{nvidia/cuda/13.0.0} (default) &
+\end{tabular}
+\end{center}
+The CUDA search also returned these related modules:
+\begin{center}
+\small
+\begin{tabular}{@{}l@{}}
+\texttt{nvidia/nvhpc-hpcx-cuda11/24.5}\\
+\texttt{nvidia/nvhpc-hpcx-cuda12/23.11}\\
+\texttt{nvidia/nvhpc-hpcx-cuda12/24.5} (default)
+\end{tabular}
+\end{center}
+
+\item \texttt{valgrind/3.26.0} is a dynamic analysis tool used for
+memory debugging.
+\end{enumerate}
+
+\question{4}
+Source: \texttt{HW01/task4.sh}; submitted on Euler with
+\texttt{sbatch task4.sh}.\\
+Job name: \texttt{FirstSlurm}; requested resources: one task, two CPU cores.
+
+\begin{tabular}{@{}ll@{}}
+\texttt{FirstSlurm.out}: & \texttt{euler01.engr.wisc.edu}\\
+\texttt{FirstSlurm.err}: & empty (no error output).
+\end{tabular}
+
+\newpage
+
+\question{5}
+\begin{enumerate}
+\setlength{\itemsep}{5pt}
+\setlength{\parsep}{0pt}
+\item By default, a Slurm job starts in the directory where
+\texttt{sbatch} was invoked, unless \texttt{--chdir} specifies
+another directory.~\cite{sbatch}
+
+\item \verb|SLURM_JOB_ID| is the environment variable containing
+the current job ID.~\cite{sbatch}
+
+\item I would use \texttt{squeue -u xzhi8} to check the status of my
+pending, running, and completing jobs.~\cite{squeue}
+
+\item I would use \verb|scancel JOB_ID|, replacing \verb|JOB_ID|
+with the ID of the queued job to cancel.~\cite{scancel}
+
+\item \texttt{\#SBATCH --gres=gpu:1} requests one GPU on each node
+allocated to the job.~\cite{sbatch}
+
+\item \textbf{(Optional)}
+\texttt{\#SBATCH --array=0-9} creates a job array of ten tasks indexed
+0 through 9, with each task's index available in
+\verb|SLURM_ARRAY_TASK_ID|.~\cite{arrays}
+\end{enumerate}
+
+\question{6}
+Source: \texttt{HW01/task6.cpp}.
+The program reads a nonnegative integer \(N\), prints 0 through \(N\)
+using \texttt{printf}, and prints \(N\) through 0 using \texttt{std::cout},
+with space-separated integers and a newline after each sequence.
+
+Compilation command:
+\begin{verbatim}
+g++ task6.cpp -Wall -O3 -std=c++17 -o task6
+\end{verbatim}
+Local test output for \texttt{./task6 6}:
+\begin{verbatim}
+0 1 2 3 4 5 6
+6 5 4 3 2 1 0
+\end{verbatim}
+
+\begin{small}
+\begin{thebibliography}{4}
+\setlength{\itemsep}{2pt}
+\setlength{\parsep}{0pt}
+\bibitem{sbatch} SchedMD, \emph{sbatch manual}.\\
+\texttt{https://slurm.schedmd.com/sbatch.html}
+\bibitem{squeue} SchedMD, \emph{squeue manual}.\\
+\texttt{https://slurm.schedmd.com/squeue.html}
+\bibitem{scancel} SchedMD, \emph{scancel manual}.\\
+\texttt{https://slurm.schedmd.com/scancel.html}
+\bibitem{arrays} SchedMD, \emph{Job Array Support}.\\
+\verb|https://slurm.schedmd.com/job_array.html|
+\end{thebibliography}
+\end{small}
+
+\end{document}
